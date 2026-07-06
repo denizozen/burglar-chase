@@ -1,23 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoneyScript : MonoBehaviour
+/// <summary>Scrolling money pickup.</summary>
+public class MoneyScript : MovingItemBase
 {
     public MoneyGenerator moneyGenerator;
-    
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Translate(Vector2.left * moneyGenerator.speed);
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-
-        if (collision.gameObject.tag == "die")
-        {
-            Destroy(gameObject);
-        }
-    }
+    protected override float Speed => moneyGenerator.speed;
 }

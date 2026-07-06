@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>Wires up the in-game pause menu: pause/resume, returning to the main menu, and quitting.</summary>
 public class PauseMenu : MonoBehaviour
 {
     public Button pause;
@@ -12,29 +11,32 @@ public class PauseMenu : MonoBehaviour
     public Button quit;
     public GameObject pauseMenu;
 
-    void Start () {
-        Button btn = pause.GetComponent<Button>();
-        Button btn2 = resume.GetComponent<Button>();
-        Button btn3 = loadMenu.GetComponent<Button>();
-        Button btn4 = quit.GetComponent<Button>(); 
-        btn.onClick.AddListener(TaskOnClick);
-        btn2.onClick.AddListener(Resume);
-        btn4.onClick.AddListener(Die);
+    void Start()
+    {
+        pause.onClick.AddListener(OpenPauseMenu);
+        resume.onClick.AddListener(ResumeGame);
+        loadMenu.onClick.AddListener(LoadMainMenu);
+        quit.onClick.AddListener(QuitApplication);
     }
 
-    void TaskOnClick(){
+    void OpenPauseMenu()
+    {
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
     }
-    
-    void Resume()
+
+    void ResumeGame()
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }
 
-    
-    void Die()
+    void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    void QuitApplication()
     {
         Application.Quit();
     }

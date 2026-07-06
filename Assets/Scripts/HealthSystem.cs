@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>Draws the row of heart icons and keeps them in sync with the player's current health.</summary>
 public class HealthSystem : MonoBehaviour
 {
     public GameObject heartPrefab;
@@ -17,7 +17,7 @@ public class HealthSystem : MonoBehaviour
     {
         playerHealth.OnPlayerDamaged += DrawHearts;
     }
-    
+
     private void OnDisable()
     {
         playerHealth.OnPlayerDamaged -= DrawHearts;
@@ -32,8 +32,8 @@ public class HealthSystem : MonoBehaviour
 
         for (int i = 0; i < hearts.Count; i++)
         {
-            int heartStatusRemainder = Mathf.Clamp(playerHealth.currentHealth/10 - (i * 2), 0, 2);
-            hearts[i].setHeartStatus((HeartStatus)heartStatusRemainder);
+            int heartStatusRemainder = Mathf.Clamp(playerHealth.currentHealth / 10 - (i * 2), 0, 2);
+            hearts[i].SetHeartStatus((HeartStatus)heartStatusRemainder);
         }
     }
 
@@ -43,7 +43,7 @@ public class HealthSystem : MonoBehaviour
         newHeart.transform.SetParent(transform);
 
         HealthBar heartComponent = newHeart.GetComponent<HealthBar>();
-        heartComponent.setHeartStatus(HeartStatus.Empty);
+        heartComponent.SetHeartStatus(HeartStatus.Empty);
         hearts.Add(heartComponent);
     }
 
@@ -56,5 +56,4 @@ public class HealthSystem : MonoBehaviour
 
         hearts = new List<HealthBar>();
     }
-
 }
