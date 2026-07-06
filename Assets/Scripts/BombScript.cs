@@ -1,23 +1,14 @@
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
 
-public class BombScript : MonoBehaviour
+/// <summary>Falling bomb obstacle; destroys itself on hitting the player or the "die" boundary.</summary>
+public class BombScript : MovingItemBase
 {
     public BombGenerator bombGenerator;
-    
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Translate(Vector2.left * bombGenerator.currentSpeed);
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    protected override float Speed => bombGenerator.currentSpeed;
 
-        if (collision.gameObject.tag == "die" || collision.gameObject.tag == "player")
-        {
-            Destroy(gameObject);
-            
-        }
+    protected override bool ShouldDestroyOnTrigger(Collider2D collision)
+    {
+        return collision.gameObject.CompareTag("die") || collision.gameObject.CompareTag("player");
     }
 }

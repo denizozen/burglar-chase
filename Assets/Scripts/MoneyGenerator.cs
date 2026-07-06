@@ -1,33 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoneyGenerator : MonoBehaviour
+/// <summary>Spawns Money prefabs at a random height and interval, starting after a delay.</summary>
+public class MoneyGenerator : ItemGeneratorBase
 {
     public GameObject money;
     public float speed = 1f;
-    private float timer;
-    private Vector3 pos;
-    // Start is called before the first frame update
-    IEnumerator Start()
-    {
-        yield return new WaitForSeconds(10);
-        StartCoroutine(generateMoney());
-    }
 
-    public IEnumerator generateMoney()
+    protected override GameObject ItemPrefab => money;
+    protected override float InitialDelay => 10f;
+    protected override Vector3 GetSpawnPosition() => new Vector3(transform.position.x, Random.Range(-3.7f, -0.29f), 0);
+    protected override float GetSpawnInterval() => Random.Range(2f, 5f);
+
+    protected override void ConfigureSpawnedItem(GameObject spawned)
     {
-        while(true)
-        {
-            pos = new Vector3(transform.position.x, Random.Range(-3.7f, -0.29f), 0);
-            GameObject moneyClones = Instantiate(money, pos, transform.rotation);
-            moneyClones.GetComponent<MoneyScript>().moneyGenerator = this;
-            timer = Random.Range(2, 5);
-            yield return new WaitForSeconds(timer);
-        }
-    }
-    // Update is called once per frame
-    void Update()
-    {
+        spawned.GetComponent<MoneyScript>().moneyGenerator = this;
     }
 }

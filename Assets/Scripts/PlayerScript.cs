@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>Player movement, health, and damage/collection handling.</summary>
 public class PlayerScript : MonoBehaviour
 {
-    private float jump = 400 ;
+    private float jump = 400;
     private bool isGrounded = false;
     private Rigidbody2D rb;
     public int health = 20;
@@ -28,7 +27,7 @@ public class PlayerScript : MonoBehaviour
     }
     void Update()
     {
-        checkLife();
+        CheckLife();
         timeSinceStart += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -52,7 +51,7 @@ public class PlayerScript : MonoBehaviour
             if (MoneyCollector.instance.money > 100)
             {
                 currentHealth += 20;
-                MoneyCollector.instance.spendMoney(100);
+                MoneyCollector.instance.SpendMoney(100);
                 OnPlayerDamaged?.Invoke();
             }
         }
@@ -67,37 +66,37 @@ public class PlayerScript : MonoBehaviour
                 isGrounded = true;
             }
         }
-        
+
         if (collision.gameObject.CompareTag("bomb"))
         {
             Destroy(collision.gameObject);
             currentHealth -= 20;
             OnPlayerDamaged?.Invoke();
-            StartCoroutine(spriteChange());
+            StartCoroutine(SpriteChange());
         }
-        
+
         if (collision.gameObject.CompareTag("bullet"))
         {
             Destroy(collision.gameObject);
             currentHealth -= 10;
             OnPlayerDamaged?.Invoke();
-            StartCoroutine(spriteChange());
+            StartCoroutine(SpriteChange());
         }
 
         if (collision.gameObject.CompareTag("money"))
         {
             Destroy(collision.gameObject);
-            MoneyCollector.instance.collectMoney(5);
+            MoneyCollector.instance.CollectMoney(5);
         }
 
         if (collision.gameObject.CompareTag("gold"))
         {
             Destroy(collision.gameObject);
-            MoneyCollector.instance.collectMoney(10);
+            MoneyCollector.instance.CollectMoney(10);
         }
     }
 
-    void checkLife()
+    void CheckLife()
     {
         if (currentHealth <= 0)
         {
@@ -107,7 +106,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    IEnumerator spriteChange()
+    IEnumerator SpriteChange()
     {
         spriteR.sprite = hurtSprite;
         yield return new WaitForSeconds(0.2f);

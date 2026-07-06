@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>Single heart icon in the health bar; swaps its sprite based on <see cref="HeartStatus"/>.</summary>
 public class HealthBar : MonoBehaviour
 {
     public Sprite fullHeart, halfHeart, emptyHeart;
@@ -13,11 +12,11 @@ public class HealthBar : MonoBehaviour
         heart = GetComponent<Image>();
     }
 
-    public void setHeartStatus(HeartStatus status)
+    public void SetHeartStatus(HeartStatus status)
     {
         switch (status)
         {
-            case HeartStatus.Empty :
+            case HeartStatus.Empty:
                 heart.sprite = emptyHeart;
                 break;
             case HeartStatus.Half:
@@ -29,11 +28,3 @@ public class HealthBar : MonoBehaviour
         }
     }
 }
-
-public enum HeartStatus
-    {
-        Full = 2,
-        Half = 1,
-        Empty = 0
-    }
-
